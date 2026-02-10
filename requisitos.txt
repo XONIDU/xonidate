@@ -1,5 +1,4 @@
 # Somos XONIDU
-
 # Requisitos mínimos
 Asegúrate de tener instalado Python 3 en tu sistema. Luego, instala las dependencias necesarias según tu sistema operativo:
 
