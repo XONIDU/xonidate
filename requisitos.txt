@@ -37,14 +37,6 @@ Para ejecutar el programa utiliza el siguiente comando:
 ```bash
 python start.py
 ``` 
-
-# Ejecución de la aplicación Visual:
-
-Para ejecutar el programa y acceder a la aplicación web, utiliza el siguiente comando:
-```bash
-python page.py
-```
-
 La aplicación estará disponible en:
 - Local: http://127.0.0.1:5000
 - Red local: http://TU-IP-LOCAL:5000
