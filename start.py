@@ -8,7 +8,7 @@ import os
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = "clave_secreta_xonidu"
+app.secret_key = "XONIDU-Darian_Alberto_Camacho_Salas"
 
 # Inicialización de las listas globales
 list_p = []
