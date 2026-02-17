@@ -35,21 +35,17 @@
             color: white;
             padding: 30px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
         }
         
         .header h1 {
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 10px;
-            letter-spacing: 1px;
         }
         
         .header p {
             font-size: 1.1rem;
             opacity: 0.9;
-            margin-bottom: 20px;
         }
         
         .qr-section {
@@ -65,12 +61,10 @@
             padding: 15px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 15px;
         }
         
         .qr-info p {
             margin: 5px 0;
-            font-size: 0.9rem;
             color: #666;
         }
         
@@ -90,13 +84,6 @@
             color: #667eea;
             margin-bottom: 15px;
             font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .section h2 i {
-            font-size: 1.2rem;
         }
         
         .form-grid {
@@ -132,7 +119,6 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Poppins', sans-serif;
-            letter-spacing: 0.5px;
         }
         
         button:hover {
@@ -165,9 +151,6 @@
         .list-item {
             padding: 8px 0;
             border-bottom: 1px solid #f5f5f5;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
         
         .list-item:last-child {
@@ -191,23 +174,17 @@
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 10px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            animation: slideIn 0.3s ease;
-        }
-        
-        .flash-success {
             background: #d4edda;
             color: #155724;
             border-left: 4px solid #28a745;
         }
         
-        .flash-warning {
-            background: #fff3cd;
-            color: #856404;
-            border-left: 4px solid #ffc107;
+        .badge {
+            background: #667eea;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
         }
         
         .footer {
@@ -219,44 +196,17 @@
             background: #f8f9fa;
         }
         
-        @keyframes slideIn {
-            from {
-                transform: translateX(-20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        
-        .badge {
-            background: #667eea;
-            color: white;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
+        .info-text {
+            background: #e7f3ff;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            color: #004085;
+            border-left: 4px solid #007bff;
         }
         
         @media (max-width: 768px) {
-            .container {
-                margin: 10px;
-            }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .content {
-                padding: 20px;
-            }
-            
             .form-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .lists {
                 grid-template-columns: 1fr;
             }
         }
@@ -271,19 +221,20 @@
         
         <div class="qr-section">
             <div class="qr-info">
-                <p>📱 Escanea para acceder desde tu teléfono</p>
-                <p>🔗 URL: {{ server_url }}</p>
+                <p>📱 URL de acceso: {{ server_url }}</p>
             </div>
         </div>
         
         <div class="content">
+            <div class="info-text">
+                <strong>🔄 Reinicio automático:</strong> Después de generar una cita, todas las listas se reinician para una nueva sesión.
+            </div>
+            
             <div class="flash-messages">
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         {% for message in messages %}
-                            <div class="flash flash-success">
-                                {{ message }}
-                            </div>
+                            <div class="flash">{{ message }}</div>
                         {% endfor %}
                     {% endif %}
                 {% endwith %}
@@ -293,15 +244,13 @@
                 <h2>👥 Asistentes</h2>
                 <form method="POST" class="form-grid">
                     <input type="hidden" name="action" value="add_person">
-                    <input type="text" name="person" placeholder="Ingresa el nombre del asistente" required>
-                    <button type="submit">➕ Añadir Asistente</button>
+                    <input type="text" name="person" placeholder="Nombre del asistente" required>
+                    <button type="submit">➕ Añadir</button>
                 </form>
                 <div class="list-box">
-                    <h3>Asistentes Registrados <span class="badge">{{ list_p|length }}</span></h3>
+                    <h3>Asistentes <span class="badge">{{ list_p|length }}</span></h3>
                     {% for person in list_p %}
-                        <div class="list-item">
-                            <span>👤 {{ person }}</span>
-                        </div>
+                        <div class="list-item">👤 {{ person }}</div>
                     {% endfor %}
                 </div>
             </div>
@@ -315,14 +264,12 @@
                             <option value="{{ day }}">{{ day }}</option>
                         {% endfor %}
                     </select>
-                    <button type="submit">🗑️ Eliminar Día</button>
+                    <button type="submit">🗑️ Eliminar</button>
                 </form>
                 <div class="list-box">
-                    <h3>Días Disponibles <span class="badge">{{ list_d|length }}</span></h3>
+                    <h3>Días <span class="badge">{{ list_d|length }}</span></h3>
                     {% for day in list_d %}
-                        <div class="list-item">
-                            <span>📅 {{ day }}</span>
-                        </div>
+                        <div class="list-item">📅 {{ day }}</div>
                     {% endfor %}
                 </div>
             </div>
@@ -331,15 +278,13 @@
                 <h2>🍕 Comidas</h2>
                 <form method="POST" class="form-grid">
                     <input type="hidden" name="action" value="add_food">
-                    <input type="text" name="food" placeholder="Ejemplo: Pizza, Sushi, Tacos..." required>
-                    <button type="submit">➕ Añadir Comida</button>
+                    <input type="text" name="food" placeholder="Ej: Pizza, Sushi" required>
+                    <button type="submit">➕ Añadir</button>
                 </form>
                 <div class="list-box">
-                    <h3>Comidas Disponibles <span class="badge">{{ list_c|length }}</span></h3>
+                    <h3>Comidas <span class="badge">{{ list_c|length }}</span></h3>
                     {% for food in list_c %}
-                        <div class="list-item">
-                            <span>🍴 {{ food }}</span>
-                        </div>
+                        <div class="list-item">🍴 {{ food }}</div>
                     {% endfor %}
                 </div>
             </div>
@@ -348,15 +293,13 @@
                 <h2>🏙️ Lugares</h2>
                 <form method="POST" class="form-grid">
                     <input type="hidden" name="action" value="add_place">
-                    <input type="text" name="place" placeholder="Ejemplo: Parque, Restaurante, Cine..." required>
-                    <button type="submit">➕ Añadir Lugar</button>
+                    <input type="text" name="place" placeholder="Ej: Parque, Cine" required>
+                    <button type="submit">➕ Añadir</button>
                 </form>
                 <div class="list-box">
-                    <h3>Lugares Disponibles <span class="badge">{{ list_l|length }}</span></h3>
+                    <h3>Lugares <span class="badge">{{ list_l|length }}</span></h3>
                     {% for place in list_l %}
-                        <div class="list-item">
-                            <span>📍 {{ place }}</span>
-                        </div>
+                        <div class="list-item">📍 {{ place }}</div>
                     {% endfor %}
                 </div>
             </div>
@@ -370,7 +313,7 @@
         </div>
         
         <div class="footer">
-            <p>Generador de Citas XONIDU © 2024 | Crea recuerdos increíbles</p>
+            <p>Generador de Citas XONIDU © 2025 | Reinicio automático después de cada cita</p>
         </div>
     </div>
 </body>
