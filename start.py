@@ -4,7 +4,6 @@ from random import choice
 import qrcode
 import socket
 import io
-import os
 from datetime import datetime
 
 app = Flask(__name__)
@@ -31,27 +30,6 @@ def get_server_ip():
         return ip
     except Exception:
         return '127.0.0.1'
-
-def generate_qr_code(url):
-    """Genera un código QR para la URL"""
-    try:
-        qr = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=10,
-            border=4,
-        )
-        qr.add_data(url)
-        qr.make(fit=True)
-        
-        img = qr.make_image(fill_color="#667eea", back_color="white")
-        img_bytes = io.BytesIO()
-        img.save(img_bytes, format='PNG')
-        img_bytes.seek(0)
-        
-        return img_bytes
-    except Exception:
-        return None
 
 def generate_terminal_qr(url):
     """Genera un código QR en ASCII para la terminal"""
@@ -185,12 +163,23 @@ def index():
             comida = choice(list_c) if list_c else "Por definir"
             lugar = choice(list_l) if list_l else "Por definir"
             
-            filename = generate_pdf(dia, comida, lugar, list_p)
+            # Generar PDF en memoria
+            pdf_data = generate_pdf_in_memory(dia, comida, lugar, list_p)
+            
+            # Limpiar listas después de generar
+            list_p = []
+            list_d = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
+            list_c = []
+            list_l = []
+            
             flash("🎉 ¡Cita generada exitosamente! Descarga tu PDF")
-            return send_file(filename, 
-                           as_attachment=True, 
-                           download_name=f"cita_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf",
-                           mimetype='application/pdf')
+            
+            return send_file(
+                pdf_data,
+                as_attachment=True,
+                download_name=f"cita_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf",
+                mimetype='application/pdf'
+            )
         
         return redirect(url_for("index"))
     
@@ -205,10 +194,8 @@ def index():
                          list_l=list_l,
                          server_url=server_url)
 
-def generate_pdf(dia, comida, lugar, asistentes):
-    """Genera un PDF elegante con la información de la cita"""
-    filename = "cita_generada.pdf"
-    
+def generate_pdf_in_memory(dia, comida, lugar, asistentes):
+    """Genera un PDF en memoria sin guardarlo en disco"""
     pdf = ElegantPDF()
     pdf.add_page()
     pdf.add_gradient_background()
@@ -244,8 +231,9 @@ def generate_pdf(dia, comida, lugar, asistentes):
     pdf.multi_cell(0, 6, "Generado automaticamente por XONIDU - Generador de Citas\n"
                         "Organiza tus encuentros sociales de forma facil y divertida", 0, 'C')
     
-    pdf.output(filename)
-    return filename
+    # Generar PDF en memoria
+    pdf_bytes = pdf.output(dest='S').encode('latin-1')
+    return io.BytesIO(pdf_bytes)
 
 def display_terminal_info():
     """Muestra información en la terminal al iniciar"""
@@ -277,7 +265,8 @@ def display_terminal_info():
     print("  • 🍕 Sugiere comidas")
     print("  • 🏙️ Propone lugares")
     print("  • 🎯 Genera citas aleatorias")
-    print("  • 📄 Crea PDFs elegantes")
+    print("  • 📄 Crea PDFs elegantes (sin guardar en servidor)")
+    print("  • 🔄 Reinicio automático después de cada generación")
     print("="*60)
     print("\nPresiona Ctrl+C para detener el servidor\n")
 
