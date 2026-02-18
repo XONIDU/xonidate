@@ -1,4 +1,5 @@
 # Somos XONIDU
+#Creador: Darian Alberto Camacho Salas
 # Requisitos mínimos
 Asegúrate de tener instalado Python 3 en tu sistema. Luego, instala las dependencias necesarias según tu sistema operativo:
 
@@ -7,14 +8,14 @@ Asegúrate de tener instalado Python 3 en tu sistema. Luego, instala las depende
 ## Instalación en **Arch Linux**
 ```bash
 sudo pacman -S python-pip python-pillow
-pip install flask fpdf qrcode[pil] --break-system-packages
+pip install flask fpdf qrcode --break-system-packages
 ```
 
 ## Instalación en **Ubuntu y derivados**
 ```bash
 sudo apt update
 sudo apt install python3 python3-pip python3-pil -y
-pip3 install flask fpdf qrcode[pil] --break-system-packages
+pip3 install flask fpdf qrcode --break-system-packages
 ```
 
 ## Instalación en **Windows**
