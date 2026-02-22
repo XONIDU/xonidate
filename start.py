@@ -242,8 +242,9 @@ def display_terminal_info():
     server_url = f"http://{server_ip}:{port}"
     
     print("\n" + "="*60)
-    print("🎉 GENERADOR DE CITAS XONIDU")
+    print("🎉 GENERADOR DE CITAS XONIDATE")
     print("="*60)
+    print("Somos XONIDU\nDarian Alberto Camachop Salas")
     print("Organiza tus encuentros sociales de forma fácil y divertida")
     print("="*60)
     print(f"\n🌐 URL Local:  http://127.0.0.1:{port}/")
