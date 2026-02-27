@@ -17,6 +17,16 @@ El proyecto **XONIDATE** tiene como propósito enseñar cómo automatizar tareas
 
 ---
 
+
+## 📥 Instalación
+
+Clona el repositorio desde GitHub:
+
+```bash
+git clone https://github.com/XONIDU/xonidate.git
+cd xonidate
+```
+
 ## ❓ ¿Dudas o sugerencias?
 
 Puedes comunicarte con el equipo de **XONIDU** a través de los siguientes medios:
