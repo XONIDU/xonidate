@@ -63,7 +63,7 @@ Aquí tienes el README reducido a lo esencial:
 
 4. **Ejecuta**
    ```bash
-   python app.py
+   python start.py
    ```
 
 5. **Accede**
@@ -102,7 +102,7 @@ pip install flask fpdf qrcode pillow --break-system-packages
 **Puerto 5000 ocupado**
 ```bash
 sudo kill -9 $(sudo lsof -t -i:5000)  # Mata el proceso
-# O cambia el puerto en app.py
+# O cambia el puerto en start.py
 ```
 
 ---
@@ -111,7 +111,7 @@ sudo kill -9 $(sudo lsof -t -i:5000)  # Mata el proceso
 
 ```
 xonidate/
-├── app.py                 # Aplicación principal
+├── start.py                 # Aplicación principal
 ├── requirements.txt       # Dependencias
 ├── README.md              # Documentación
 └── templates/
