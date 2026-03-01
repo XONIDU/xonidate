@@ -2,15 +2,6 @@ Aquí tienes el README reducido a lo esencial:
 
 # 🚀 XONIDATE · Generador de Citas
 
-<div align="center">
-  <h3>⚡ Automatización para encuentros sociales</h3>
-  
-  [📋 Características](#-características) • 
-  [🛠️ Instalación](#️-instalación) • 
-  [💻 Uso](#-uso) • 
-  [📞 Contacto](#-contacto)
-</div>
-
 ---
 
 ## ⚠️ AVISO IMPORTANTE
