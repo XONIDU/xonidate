@@ -2,6 +2,7 @@ from flask import Flask, request, redirect, url_for, send_file, flash, render_te
 from fpdf import FPDF
 from random import choice
 import qrcode
+import qrcode.constants
 import socket
 import io
 from datetime import datetime
@@ -132,6 +133,12 @@ def index():
                 list_p.append(person)
                 flash(f"✅ Asistente '{person}' agregado exitosamente")
         
+        elif action == "remove_person":
+            person = request.form.get("person_to_remove")
+            if person in list_p:
+                list_p.remove(person)
+                flash(f"❌ Asistente '{person}' eliminado")
+        
         elif action == "remove_day":
             day = request.form.get("day")
             if day in list_d:
@@ -144,11 +151,30 @@ def index():
                 list_c.append(food)
                 flash(f"🍴 Comida '{food}' agregada exitosamente")
         
+        elif action == "remove_food":
+            food = request.form.get("food_to_remove")
+            if food in list_c:
+                list_c.remove(food)
+                flash(f"❌ Comida '{food}' eliminada")
+        
         elif action == "add_place":
             place = request.form.get("place", "").strip()
             if place and place not in list_l:
                 list_l.append(place)
                 flash(f"🏙️ Lugar '{place}' agregado exitosamente")
+        
+        elif action == "remove_place":
+            place = request.form.get("place_to_remove")
+            if place in list_l:
+                list_l.remove(place)
+                flash(f"❌ Lugar '{place}' eliminado")
+        
+        elif action == "clear_all":
+            list_p = []
+            list_d = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
+            list_c = []
+            list_l = []
+            flash("🔄 Todas las listas han sido reiniciadas")
         
         elif action == "generate":
             if not list_d:
@@ -244,7 +270,7 @@ def display_terminal_info():
     print("\n" + "="*60)
     print("🎉 GENERADOR DE CITAS XONIDATE")
     print("="*60)
-    print("Somos XONIDU\nDarian Alberto Camachop Salas")
+    print("Somos XONIDU\nDarian Alberto Camacho Salas")
     print("Organiza tus encuentros sociales de forma fácil y divertida")
     print("="*60)
     print(f"\n🌐 URL Local:  http://127.0.0.1:{port}/")
@@ -262,11 +288,13 @@ def display_terminal_info():
     print("="*60)
     print("\n💡 Características:")
     print("  • ✅ Añade asistentes por nombre")
+    print("  • ❌ Elimina asistentes, comidas o lugares si te equivocaste")
     print("  • 📅 Elimina días no disponibles")
     print("  • 🍕 Sugiere comidas")
     print("  • 🏙️ Propone lugares")
-    print("  • 🎯 Genera citas aleatorias")
-    print("  • 📄 Crea PDFs elegantes (sin guardar en servidor)")
+    print("  • 🎲 Genera citas aleatorias")
+    print("  • 🧹 Botón para limpiar todas las listas")
+    print("  • 📄 Crea PDFs elegantes")
     print("  • 🔄 Reinicio automático después de cada generación")
     print("="*60)
     print("\nPresiona Ctrl+C para detener el servidor\n")
