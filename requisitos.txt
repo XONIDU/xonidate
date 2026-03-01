@@ -6,38 +6,29 @@ Asegúrate de tener instalado Python 3 en tu sistema. Luego, instala las depende
 ---
 
 ## Instalación en **Arch Linux**
-```bash
 sudo pacman -S python-pip python-pillow
 pip install flask fpdf qrcode --break-system-packages
-```
 
 ## Instalación en **Ubuntu y derivados**
-```bash
 sudo apt update
 sudo apt install python3 python3-pip python3-pil -y
 pip3 install flask fpdf qrcode --break-system-packages
-```
 
 ## Instalación en **Windows**
-```bash
-pip install flask fpdf qrcode[pil] pillow
-```
+pip install flask fpdf qrcode pillow
 
 ## Instalación en **macOS**
 (Asegúrate de tener Homebrew instalado: https://brew.sh/)
-```bash
 brew install python3
-pip3 install flask fpdf qrcode[pil] pillow
-```
+pip3 install flask fpdf qrcode pillow
 
 ---
 
 # Ejecución de la aplicación:
 
 Para ejecutar el programa utiliza el siguiente comando:
-```bash
 python start.py
-``` 
+
 La aplicación estará disponible en:
 - Local: http://127.0.0.1:5000
 - Red local: http://TU-IP-LOCAL:5000
