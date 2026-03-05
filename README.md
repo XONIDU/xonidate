@@ -1,6 +1,8 @@
 Aquí tienes el README reducido a lo esencial:
 
-# 🚀 XONIDATE · Generador de Citas
+# 🚀 XONIDATE · Generador de Citas v4.2.0
+
+## **Creador:** Darian Alberto Camacho Salas
 
 ---
 
@@ -162,3 +164,5 @@ xonidate/
 - Licencia detallada
 - Propósito educativo extenso
 - Secciones redundantes
+
+## **Creador:** Darian Alberto Camacho Salas
