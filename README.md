@@ -1,6 +1,6 @@
 Aquí tienes el README reducido a lo esencial:
 
-# 🚀 XONIDATE · Generador de Citas v4.2.0
+# 🚀 XONIDATE · Generador de Citas v420
 
 ## **Creador:** Darian Alberto Camacho Salas
 
