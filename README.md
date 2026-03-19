@@ -137,4 +137,4 @@ xonidate/
   <br>  
   **XONIDATE © 2026 · Hecho con 💚 desde la terminal**
 </div>
-```
+
