@@ -1,4 +1,3 @@
-```markdown
 # 🚀 XONIDATE · Generador Automático de Citas
 
 <div align="center">
