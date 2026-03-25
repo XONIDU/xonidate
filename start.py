@@ -5,7 +5,7 @@
 XONIDATE 2026 - Lanzador Universal del Generador de Citas
 Este script ejecuta xonidate.py y verifica/instala dependencias
 Desarrollado por: Darian Alberto Camacho Salas
-#Somos XONIDU
+#Somos: XONIDU
 """
 
 import subprocess
