@@ -5,7 +5,7 @@
 XONIDATE 2026 - Lanzador Universal del Generador de Citas
 Este script ejecuta xonidate.py y verifica/instala dependencias
 Desarrollado por: Darian Alberto Camacho Salas
-#Somos: XONIDU
+#Somos XONIDU
 """
 
 import subprocess
@@ -57,20 +57,16 @@ def get_linux_distro():
         if os.path.exists('/etc/os-release'):
             with open('/etc/os-release', 'r') as f:
                 content = f.read().lower()
-                if 'ubuntu' in content:
-                    return 'ubuntu'
-                elif 'debian' in content:
-                    return 'debian'
+                if 'ubuntu' in content or 'debian' in content or 'mint' in content or 'antix' in content:
+                    return 'debian'  # apt
                 elif 'fedora' in content:
-                    return 'fedora'
-                elif 'centos' in content:
-                    return 'centos'
-                elif 'arch' in content:
-                    return 'arch'
-                elif 'manjaro' in content:
-                    return 'manjaro'
-                elif 'mint' in content:
-                    return 'mint'
+                    return 'fedora'  # dnf
+                elif 'centos' in content or 'rhel' in content:
+                    return 'centos'  # yum
+                elif 'arch' in content or 'manjaro' in content:
+                    return 'arch'    # pacman
+                elif 'opensuse' in content or 'suse' in content:
+                    return 'suse'    # zypper
         return 'linux-generico'
     except:
         return 'linux-generico'
@@ -121,6 +117,96 @@ def check_python():
     except:
         return False
 
+def check_pip():
+    """Verifica si pip está instalado ejecutando 'python -m pip --version'"""
+    try:
+        python_cmd = get_python_command()
+        cmd = python_cmd + ['-m', 'pip', '--version']
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        if result.returncode == 0:
+            print(f"{Colors.GREEN}  - pip: OK{Colors.END}")
+            return True
+        else:
+            print(f"{Colors.YELLOW}  - pip: NO INSTALADO{Colors.END}")
+            return False
+    except Exception as e:
+        print(f"{Colors.YELLOW}  - pip: NO INSTALADO (error: {e}){Colors.END}")
+        return False
+
+def install_pip():
+    """Instala pip según la distribución de Linux detectada"""
+    sistema = get_system()
+    if sistema != 'linux':
+        print(f"{Colors.YELLOW}En {sistema} no se requiere instalar pip manualmente (generalmente viene con Python).{Colors.END}")
+        return False
+    
+    distro = get_linux_distro()
+    print(f"{Colors.BOLD}Intentando instalar pip en {distro}...{Colors.END}")
+    
+    # Comandos de instalación según la distribución
+    if distro == 'debian':
+        cmd = ['sudo', 'apt', 'update']
+        print(f"Ejecutando: {' '.join(cmd)}")
+        subprocess.run(cmd, check=False)
+        cmd = ['sudo', 'apt', 'install', '-y', 'python3-pip']
+        print(f"Ejecutando: {' '.join(cmd)}")
+        try:
+            subprocess.run(cmd, check=True)
+            print(f"{Colors.GREEN}pip instalado correctamente con apt.{Colors.END}")
+            return True
+        except:
+            print(f"{Colors.RED}Error instalando pip con apt.{Colors.END}")
+            return False
+    
+    elif distro == 'arch':
+        cmd = ['sudo', 'pacman', '-S', '--noconfirm', 'python-pip']
+        print(f"Ejecutando: {' '.join(cmd)}")
+        try:
+            subprocess.run(cmd, check=True)
+            print(f"{Colors.GREEN}pip instalado correctamente con pacman.{Colors.END}")
+            return True
+        except:
+            print(f"{Colors.RED}Error instalando pip con pacman.{Colors.END}")
+            return False
+    
+    elif distro == 'fedora':
+        cmd = ['sudo', 'dnf', 'install', '-y', 'python3-pip']
+        print(f"Ejecutando: {' '.join(cmd)}")
+        try:
+            subprocess.run(cmd, check=True)
+            print(f"{Colors.GREEN}pip instalado correctamente con dnf.{Colors.END}")
+            return True
+        except:
+            print(f"{Colors.RED}Error instalando pip con dnf.{Colors.END}")
+            return False
+    
+    elif distro == 'centos':
+        cmd = ['sudo', 'yum', 'install', '-y', 'python3-pip']
+        print(f"Ejecutando: {' '.join(cmd)}")
+        try:
+            subprocess.run(cmd, check=True)
+            print(f"{Colors.GREEN}pip instalado correctamente con yum.{Colors.END}")
+            return True
+        except:
+            print(f"{Colors.RED}Error instalando pip con yum.{Colors.END}")
+            return False
+    
+    elif distro == 'suse':
+        cmd = ['sudo', 'zypper', 'install', '-y', 'python3-pip']
+        print(f"Ejecutando: {' '.join(cmd)}")
+        try:
+            subprocess.run(cmd, check=True)
+            print(f"{Colors.GREEN}pip instalado correctamente con zypper.{Colors.END}")
+            return True
+        except:
+            print(f"{Colors.RED}Error instalando pip con zypper.{Colors.END}")
+            return False
+    
+    else:
+        print(f"{Colors.YELLOW}No se pudo detectar la distribución o no está soportada para instalación automática.{Colors.END}")
+        print("Instala pip manualmente según tu distribución.")
+        return False
+
 def check_command(comando):
     """Verifica si un comando existe"""
     return shutil.which(comando) is not None
@@ -137,7 +223,7 @@ def check_dependencies():
         ('flask', 'flask', 'Framework web', 'flask'),
         ('fpdf', 'fpdf', 'Generación de PDF', 'fpdf'),
         ('qrcode', 'qrcode', 'Códigos QR', 'qrcode'),
-        ('pillow', 'pillow', 'Procesamiento de imágenes', 'PIL'),  # PIL es el nombre de importación de pillow
+        ('pillow', 'pillow', 'Procesamiento de imágenes', 'PIL'),
     ]
     
     faltantes = []
@@ -161,14 +247,11 @@ def install_dependencies(faltantes):
     sistema = get_system()
     distro = get_linux_distro()
     
-    # Instalar paquetes Python
     if faltantes:
         print(f"Paquetes Python a instalar: {', '.join(faltantes)}")
         
-        # Construir comando de instalación
         cmd = [sys.executable, '-m', 'pip', 'install']
         
-        # Agregar opciones según sistema
         if sistema == 'linux':
             if distro in ['arch', 'manjaro', 'fedora']:
                 cmd.append('--break-system-packages')
@@ -180,7 +263,6 @@ def install_dependencies(faltantes):
         
         cmd.extend(faltantes)
         
-        # Intentar instalación
         try:
             print(f"Ejecutando: {' '.join(cmd)}")
             subprocess.run(cmd, check=True)
@@ -188,8 +270,6 @@ def install_dependencies(faltantes):
         except subprocess.CalledProcessError as e:
             print(f"{Colors.RED}Error instalando dependencias: {e}{Colors.END}")
             print(f"\n{Colors.YELLOW}Intentando método alternativo...{Colors.END}")
-            
-            # Segundo intento: solo --user (para cualquier sistema)
             try:
                 cmd2 = [sys.executable, '-m', 'pip', 'install', '--user'] + faltantes
                 subprocess.run(cmd2, check=True)
@@ -232,7 +312,6 @@ def crear_accesos_directos():
     sistema = get_system()
     
     if sistema == 'windows':
-        # Crear .bat para Windows
         with open('INICIAR_XONIDATE.bat', 'w') as f:
             f.write("""@echo off
 title XONIDATE 2026 - Generador de Citas
@@ -248,7 +327,6 @@ pause
         print(f"{Colors.GREEN}Creado INICIAR_XONIDATE.bat - Haz doble clic para ejecutar{Colors.END}")
     
     elif sistema == 'linux':
-        # Crear .sh para Linux
         with open('INICIAR_XONIDATE.sh', 'w') as f:
             f.write("""#!/bin/bash
 echo "========================================"
@@ -263,7 +341,6 @@ read -p "Presiona Enter para salir"
         print(f"{Colors.GREEN}Creado INICIAR_XONIDATE.sh - Ejecuta con: ./INICIAR_XONIDATE.sh{Colors.END}")
     
     elif sistema == 'darwin':
-        # Crear .command para Mac
         with open('INICIAR_XONIDATE.command', 'w') as f:
             f.write("""#!/bin/bash
 cd "$(dirname "$0")"
@@ -279,13 +356,11 @@ python3 start.py
 
 def main():
     """Función principal"""
-    # Limpiar pantalla
     if get_system() == 'windows':
         os.system('cls')
     else:
         os.system('clear')
     
-    # Mostrar banner
     print_banner()
     
     # Verificar Python
@@ -300,23 +375,60 @@ def main():
     print(f"{Colors.BOLD}Python:{Colors.END} {python_version}")
     print(f"{Colors.BOLD}Directorio:{Colors.END} {os.path.dirname(os.path.abspath(__file__))}")
     
-    # Verificar dependencias
+    # ========== NUEVA SECCIÓN: Verificar e instalar pip en Linux ==========
+    sistema = get_system()
+    if sistema == 'linux':
+        print(f"\n{Colors.BOLD}Verificando pip...{Colors.END}")
+        if not check_pip():
+            print(f"{Colors.YELLOW}pip no está instalado. Es necesario para instalar dependencias.{Colors.END}")
+            respuesta = input("¿Deseas instalar pip automáticamente? (s/n): ")
+            if respuesta.lower() == 's':
+                if install_pip():
+                    print(f"{Colors.GREEN}pip instalado correctamente. Continuando...{Colors.END}")
+                    # Verificar nuevamente
+                    if not check_pip():
+                        print(f"{Colors.RED}No se pudo verificar pip después de la instalación. Saliendo.{Colors.END}")
+                        input(f"\n{Colors.YELLOW}Presiona Enter para salir...{Colors.END}")
+                        return
+                else:
+                    print(f"{Colors.RED}No se pudo instalar pip automáticamente.{Colors.END}")
+                    print("Instálalo manualmente y vuelve a ejecutar este script.")
+                    input(f"\n{Colors.YELLOW}Presiona Enter para salir...{Colors.END}")
+                    return
+            else:
+                print(f"{Colors.YELLOW}No se instalará pip. El programa no podrá instalar dependencias y puede fallar.{Colors.END}")
+                print("Si deseas continuar, asegúrate de tener las dependencias instaladas manualmente.")
+                respuesta2 = input("¿Continuar de todas formas? (s/n): ")
+                if respuesta2.lower() != 's':
+                    print("Saliendo...")
+                    return
+        else:
+            print(f"{Colors.GREEN}pip está disponible.{Colors.END}")
+    else:
+        # En Windows/macOS normalmente pip viene con Python, pero lo verificamos igual
+        print(f"\n{Colors.BOLD}Verificando pip...{Colors.END}")
+        if not check_pip():
+            print(f"{Colors.YELLOW}No se encontró pip. Es posible que necesites instalarlo manualmente.{Colors.END}")
+            respuesta = input("¿Continuar de todas formas? (s/n): ")
+            if respuesta.lower() != 's':
+                return
+    # ========== FIN DE LA NUEVA SECCIÓN ==========
+    
+    # Verificar dependencias Python (flask, fpdf, qrcode, pillow)
     faltantes = check_dependencies()
     
     if faltantes:
         print(f"\n{Colors.YELLOW}Faltan dependencias{Colors.END}")
         respuesta = input("¿Instalar automáticamente? (s/n): ")
-        
         if respuesta.lower() == 's':
-            exito = install_dependencies(faltantes)
-            if not exito:
-                print(f"\n{Colors.RED}No se pudieron instalar las dependencias. Saliendo.{Colors.END}")
+            if not install_dependencies(faltantes):
+                print(f"{Colors.RED}No se pudieron instalar las dependencias. Saliendo.{Colors.END}")
                 input(f"\n{Colors.YELLOW}Presiona Enter para salir...{Colors.END}")
                 return
         else:
             print(f"\nPuedes instalarlas manualmente con:")
             print("  pip install flask fpdf qrcode pillow")
-            if get_system() == 'linux':
+            if sistema == 'linux':
                 print("\nSi usas Linux con Python 3.11+ y tienes el error 'externally-managed-environment':")
                 print("  pip install flask fpdf qrcode pillow --break-system-packages")
             input(f"\n{Colors.YELLOW}Presiona Enter para salir...{Colors.END}")
@@ -326,16 +438,13 @@ def main():
     if not os.path.exists('xonidate.py'):
         print(f"\n{Colors.RED}Error: No se encuentra xonidate.py{Colors.END}")
         print("Asegúrate de que xonidate.py está en el mismo directorio")
-        print("\nPuedes descargarlo desde:")
-        print("  https://github.com/XONIDU/xonidate")
         input(f"\n{Colors.YELLOW}Presiona Enter para salir...{Colors.END}")
         return
     
-    # Verificar que las importaciones funcionan
-    print(f"\n{Colors.BOLD}Verificando que todo funcione...{Colors.END}")
+    # Verificar importaciones
+    print(f"\n{Colors.BOLD}Verificando importaciones...{Colors.END}")
     if not verificar_importaciones():
         print(f"\n{Colors.RED}Error: No se pueden importar los módulos necesarios{Colors.END}")
-        print("El programa no puede continuar sin estas dependencias")
         input(f"\n{Colors.YELLOW}Presiona Enter para salir...{Colors.END}")
         return
     
@@ -343,19 +452,15 @@ def main():
     print(f"{Colors.BOLD}Para salir en cualquier momento:{Colors.END} Ctrl+C")
     print("-" * 60)
     
-    # EJECUTAR xonidate.py
+    # Ejecutar xonidate.py
     try:
         python_cmd = get_python_command()
         cmd = python_cmd + ['xonidate.py']
         print(f"Ejecutando: {' '.join(cmd)}")
         print("-" * 60)
-        
-        # Ejecutar xonidate.py
         resultado = subprocess.run(cmd)
-        
         if resultado.returncode != 0:
             print(f"\n{Colors.RED}Error: xonidate.py terminó con código {resultado.returncode}{Colors.END}")
-            
     except FileNotFoundError:
         print(f"\n{Colors.RED}Error: No se encuentra xonidate.py{Colors.END}")
     except KeyboardInterrupt:
@@ -367,16 +472,12 @@ def main():
     print(f"{Colors.BLUE}Desarrollado por Darian Alberto Camacho Salas{Colors.END}")
     print(f"{Colors.BLUE}#Somos XONIDU{Colors.END}")
     
-    # Pausa al final (excepto en Windows que ya tiene pausa por el .bat)
     if get_system() != 'windows':
         input(f"\n{Colors.YELLOW}Presiona Enter para salir...{Colors.END}")
 
 if __name__ == '__main__':
     try:
-        # Crear accesos directos
         crear_accesos_directos()
-        
-        # Ejecutar programa principal
         main()
     except KeyboardInterrupt:
         print(f"\n{Colors.YELLOW}Saliendo...{Colors.END}")
