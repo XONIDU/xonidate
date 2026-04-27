@@ -1,4 +1,4 @@
-# 🚀 XONIDATE · Generador Automático de Citas
+# 🚀 XONIDATE · Generador Automático de Citas v4.2.0
 
 <div align="center">
   <h3>⚡ Organiza encuentros sociales de forma fácil y divertida</h3>
