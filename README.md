@@ -1,140 +1,150 @@
-# 🚀 XONIDATE · Generador Automático de Citas v4.2.0
+# 🎉 XONIDATE
 
-<div align="center">
-  <h3>⚡ Organiza encuentros sociales de forma fácil y divertida</h3>
-  
-  [✨ Características](#-características) • 
-  [📦 Instalación](#-instalación) • 
-  [🎮 Uso](#-uso) • 
-  [🐧 Linux](#-notas-para-linux) • 
-  [📞 Contacto](#-contacto)
-</div>
+Generador automático de citas por web con estilo terminal  
+Optimizado para organizar encuentros sociales de forma fácil y divertida  
+Desarrollado por Darian Alberto Camacho Salas – XONIDU
 
----
+## 📋 Características
 
-## ⚠️ Aviso importante
-
-> **Este código es exclusivamente para fines educativos.**  
-> No nos hacemos responsables del mal uso que se pueda dar a esta herramienta.
-
----
-
-## ✨ Características
-
-| Función               | Descripción                                           |
-|-----------------------|-------------------------------------------------------|
-| **👥 Asistentes**      | Añade o elimina participantes fácilmente.            |
-| **📅 Días**            | Gestiona los días disponibles para la cita.          |
-| **🍴 Comidas**         | Propone opciones gastronómicas.                       |
-| **📍 Lugares**         | Define posibles ubicaciones.                          |
-| **🎲 Generación**      | Combina aleatoriamente los elementos y crea una cita. |
-| **📄 PDF elegante**    | Descarga un documento profesional con los resultados. |
-| **🌐 Multi‑plataforma**| Funciona en Windows, macOS y Linux.                   |
-| **🖥️ Interfaz terminal**| Diseño inspirado en consola con colores verde, azul, rojo y blanco. |
-
----
+- ✅ Interfaz tipo terminal (colores verde, azul, rojo, blanco)
+- ✅ Añade/elimina asistentes, días, comidas y lugares
+- ✅ Eliminación individual con ✕ o por menús desplegables
+- ✅ Botón "Limpiar Todo" para reiniciar
+- ✅ Generación aleatoria de citas (un día, una comida, un lugar)
+- ✅ Descarga de PDF elegante (sin guardar en servidor)
+- ✅ QR de acceso para usar desde el móvil
+- ✅ Multiplataforma (Windows, macOS, Linux)
+- ✅ Sin bases de datos – todo en memoria
 
 ## 📦 Instalación
 
-### Requisitos previos
-- Python 3.8 o superior
-- `pip` (gestor de paquetes)
-
-### Pasos rápidos
-
-1. **Clona el repositorio**
-   ```bash
-   git clone https://github.com/XONIDU/xonidate.git
-   cd xonidate
-   ```
-
-2. **(Recomendado) Crea un entorno virtual**
-   ```bash
-   python -m venv venv
-   # Activar:
-   #   Linux/macOS: source venv/bin/activate
-   #   Windows:     venv\Scripts\activate
-   ```
-
-3. **Ejecuta el lanzador** (se encarga de instalar dependencias y arrancar la app)
-   ```bash
-   python start.py
-   ```
-   > El script `start.py` detectará tu sistema operativo, instalará automáticamente `flask`, `fpdf`, `qrcode` y `pillow` (usando `--break-system-packages` en distribuciones Linux que lo requieran) y luego lanzará `xonidate.py`.
-
-4. **Accede a la aplicación**
-   - Local: http://127.0.0.1:5000
-   - Desde tu red: http://[IP-del-equipo]:5000
-
-### Instalación manual (alternativa)
-Si prefieres hacerlo manualmente:
-```bash
-pip install flask fpdf qrcode pillow
-python xonidate.py
-```
-
----
-
-## 🎮 Uso
-
-1. **Añade elementos** en cada sección (asistentes, comidas, lugares…).  
-2. **Elimina** cualquier elemento haciendo clic en la **✕** roja junto a él, o usando los menús desplegables.  
-3. **Limpia todo** con el botón `[ LIMPIAR TODO ]`.  
-4. Cuando estés listo, pulsa **`> GENERAR CITA Y DESCARGAR PDF`**.  
-5. ¡Disfruta de tu cita única!
-
----
-
-## 🐧 Notas para Linux
-
-En distribuciones como **Debian 12, Ubuntu 23.04+, Fedora, Arch o Manjaro**, puede aparecer el error:
-
-```
-error: externally-managed-environment
-```
-
-El lanzador `start.py` lo maneja automáticamente:  
-- Si tu distro lo requiere, usará `--break-system-packages` durante la instalación de dependencias.  
-- Si prefieres hacerlo a mano, ejecuta:
+### Opción 1 – Clonado manual
 
 ```bash
-pip install flask fpdf qrcode pillow --break-system-packages
+git clone https://github.com/XONIDU/xonidate.git
+cd xonidate
+pip install -r requirements.txt   # o pip install flask fpdf qrcode pillow
+python start.py
 ```
 
-**Siempre es preferible usar un entorno virtual** para evitar conflictos con los paquetes del sistema.
+### Opción 2 – Comando `xoninstall` (recomendado para futuras herramientas XONI)
 
----
+Agrega la siguiente función a tu `~/.bashrc` con un solo comando:
 
-## 📁 Estructura del proyecto
-
-```
-xonidate/
-├── start.py              # Lanzador universal (instala dependencias y ejecuta la app)
-├── xonidate.py           # Aplicación principal Flask
-├── requirements.txt      # Lista de dependencias (opcional)
-├── README.md             # Este archivo
-└── templates/
-    └── index.html        # Interfaz de usuario con estilo terminal
+```bash
+echo 'xoninstall() { if [ -z "$1" ]; then echo "Uso: xoninstall <repo>"; echo "Ej: xoninstall xoniran"; else git clone "https://github.com/XONIDU/$1.git"; fi; }' >> ~/.bashrc && source ~/.bashrc && echo "✅ Listo. Usa: xoninstall xonidate"
 ```
 
+Luego simplemente escribe:
+
+```bash
+xoninstall xonidate
+cd xonidate
+pip install -r requirements.txt   # o pip install flask fpdf qrcode pillow
+python start.py
+```
+
+> **Nota:** Esta función te servirá para instalar cualquier otra herramienta futura de XONIDU (por ejemplo `xoninstall xonicli`).
+
+## 🔧 Configuración
+
+No requiere configuración manual. El lanzador `start.py` se encarga de:
+- Detectar tu sistema operativo.
+- Verificar e instalar `pip` si falta (en Linux).
+- Instalar las dependencias (`flask`, `fpdf`, `qrcode`, `pillow`) usando `--break-system-packages` cuando es necesario.
+- Ejecutar la aplicación principal.
+
+### Archivos generados
+
+- El PDF se descarga directamente en tu navegador, no se guarda en el servidor.
+- No se crean archivos de configuración locales (todo funciona en memoria).
+
+## 🚀 Uso
+
+```bash
+python start.py   # o ./start.py en Linux/macOS si tiene permisos
+```
+
+Dentro de la interfaz web (abre automáticamente en http://127.0.0.1:5000):
+
+1. **Añade asistentes**, comidas y lugares usando los campos de texto.
+2. **Elimina** elementos con la ✕ roja o mediante los menús desplegables.
+3. **Limpia todo** con el botón correspondiente.
+4. Pulsa **`> GENERAR CITA Y DESCARGAR PDF`**.
+5. Se descargará un PDF con los detalles de la cita (día, lugar, comida, lista de asistentes).
+
+**Controles**:  
+- `Ctrl + C` en la terminal para detener el servidor web.
+
+### Ejemplo de pantalla
+
+```
+============================================================
+   XONIDATE - GENERADOR DE CITAS CON ESTILO TERMINAL
+============================================================
+   Añade asistentes, comidas y lugares.  
+   Elimina lo que no quieras.  
+   ¡Genera tu cita y descarga el PDF!
+============================================================
+
+> ASISTENTES
+   - Ana
+   - Carlos
+   - María
+
+> DÍAS DISPONIBLES: Lunes, Martes, Miércoles...
+> COMIDAS: Pizza, Sushi
+> LUGARES: Parque, Cine
+
+[ GENERAR CITA Y DESCARGAR PDF ]
+```
+
+## 📁 Estructura del paquete
+
+| Archivo              | Ubicación                          |
+|----------------------|------------------------------------|
+| `xonidate.py`        | Programa principal (Flask)         |
+| `start.py`           | Lanzador universal                 |
+| `templates/index.html` | Interfaz de usuario (estilo terminal) |
+| `requirements.txt`   | Dependencias (opcional)            |
+| `README.md`          | Este archivo                       |
+
+## 🧪 Pruebas
+
+Ejecuta directamente el lanzador:
+
+```bash
+python start.py
+```
+
+Si todo funciona, verás un mensaje como:
+
+```
+✅ Servidor iniciado en http://127.0.0.1:5000
+```
+
+Abre esa URL en tu navegador.
+
+## 🐛 Problemas comunes y soluciones
+
+| Problema | Solución |
+|----------|----------|
+| `ModuleNotFoundError: No module named 'flask'` | Ejecuta `pip install flask fpdf qrcode pillow` (o usa `start.py` que lo instala automáticamente). |
+| `error: externally-managed-environment` (Linux) | Usa `pip install --break-system-packages ...` o mejor ejecuta `python start.py` que lo maneja solo. |
+| El puerto 5000 ya está ocupado | Cambia el puerto en `xonidate.py` (última línea) o mata el proceso: `sudo kill -9 $(sudo lsof -t -i:5000)`. |
+| No se ve el código QR en la terminal | Instala `qrcode` (`pip install qrcode`). No es esencial para el funcionamiento. |
+| El PDF no se descarga | Revisa que tu navegador permita descargas automáticas. El PDF se genera en memoria. |
+
+## 📄 Licencia
+
+© 2026 Darian Alberto Camacho Salas (XONIDU)  
+Todos los derechos reservados. No se permite la copia, distribución o modificación sin autorización explícita.
+
+## ✉️ Contacto
+
+- **Creador**: Darian Alberto Camacho Salas  
+- **Email**: [xonidu@gmail.com](mailto:xonidu@gmail.com)  
+- **GitHub**: [@XONIDU](https://github.com/XONIDU)
+
 ---
-
-## 📞 Contacto
-
-| Medio     | Enlace                              |
-|-----------|-------------------------------------|
-| 📸 Instagram | [@xonidu](https://instagram.com/xonidu) |
-| 📘 Facebook  | [xonidu](https://facebook.com/xonidu)   |
-| 📧 Email     | [xonidu@gmail.com](mailto:xonidu@gmail.com) |
-
-**Creador**: Darian Alberto Camacho Salas  
-**#SomosXONIDU**
-
----
-
-<div align="center">
-  ⭐ **Si te gusta el proyecto, no olvides dejar una estrella en GitHub** ⭐  
-  <br>  
-  **XONIDATE © 2026 · Hecho con 💚 desde la terminal**
-</div>
 
