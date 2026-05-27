@@ -40,11 +40,11 @@ Luego simplemente escribe:
 ```bash
 xoninstall xonidate
 cd xonidate
-pip install -r requirements.txt   # o pip install flask fpdf qrcode pillow
+pip install -r requisitos.txt
 python start.py
 ```
 
-> **Nota:** Esta función te servirá para instalar cualquier otra herramienta futura de XONIDU (por ejemplo `xoninstall xonicli`).
+> **Nota:** Esta función te servirá para instalar cualquier otra herramienta futura de XONIDU (por ejemplo `xoninstall xonidate`).
 
 ## 🔧 Configuración
 
