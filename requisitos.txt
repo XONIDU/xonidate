@@ -1,36 +1,38 @@
 # Somos XONIDU
 #Creador: Darian Alberto Camacho Salas
 # Requisitos mínimos
-Asegúrate de tener instalado Python 3 en tu sistema. Luego, instala las dependencias necesarias según tu sistema operativo:
+#Asegúrate de tener instalado Python 3 en tu sistema. Luego, instala las dependencias necesarias según tu sistema operativo:
 
----
+flask 
+fpdf
+qrcode
+pillow
 
 ## Instalación en **Arch Linux**
-sudo pacman -S python-pip python-pillow
-pip install flask fpdf qrcode --break-system-packages
+#sudo pacman -S python-pip python-pillow
+#pip install flask fpdf qrcode --break-system-packages
 
 ## Instalación en **Ubuntu y derivados**
-sudo apt update
-sudo apt install python3 python3-pip python3-pil -y
-pip3 install flask fpdf qrcode --break-system-packages
+#sudo apt update
+#sudo apt install python3 python3-pip python3-pil -y
+#pip3 install flask fpdf qrcode --break-system-packages
 
 ## Instalación en **Windows**
-pip install flask fpdf qrcode pillow
+#pip install flask fpdf qrcode pillow
 
 ## Instalación en **macOS**
-(Asegúrate de tener Homebrew instalado: https://brew.sh/)
-brew install python3
-pip3 install flask fpdf qrcode pillow
+#(Asegúrate de tener Homebrew instalado: https://brew.sh/)
+#brew install python3
+#pip3 install flask fpdf qrcode pillow
 
----
 
 # Ejecución de la aplicación:
 
-Para ejecutar el programa utiliza el siguiente comando:
-python start.py
+#Para ejecutar el programa utiliza el siguiente comando:
+#python start.py
 
-La aplicación estará disponible en:
-- Local: http://127.0.0.1:5000
-- Red local: http://TU-IP-LOCAL:5000
+#La aplicación estará disponible en:
+#- Local: http://127.0.0.1:5000
+#- Red local: http://TU-IP-LOCAL:5000
 
-Se mostrará un código QR en la terminal para acceso rápido desde dispositivos móviles.
+#Se mostrará un código QR en la terminal para acceso rápido desde dispositivos móviles.
