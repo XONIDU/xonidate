@@ -1,3 +1,4 @@
+
 # 🎉 XONIDATE
 
 Generador automático de citas por web con estilo terminal  
@@ -40,11 +41,21 @@ Luego simplemente escribe:
 ```bash
 xoninstall xonidate
 cd xonidate
-pip install -r requisitos.txt
+pip install -r requirements.txt
 python start.py
 ```
 
-> **Nota:** Esta función te servirá para instalar cualquier otra herramienta futura de XONIDU (por ejemplo `xoninstall xonidate`).
+> **Nota:** Esta función te servirá para instalar cualquier otra herramienta futura de XONIDU (por ejemplo `xoninstall xonicli`).
+
+### Opción 3 – Ejecutar con el lanzador `.bat` (Windows)
+
+Si estás en Windows, puedes ejecutar directamente el archivo `INICIAR_XONIDATE.bat` que se genera automáticamente al ejecutar `start.py`. Este archivo:
+
+- Solicita permisos de administrador
+- Verifica e instala dependencias automáticamente
+- Inicia el servidor en http://localhost:5000
+
+Solo haz doble clic en `INICIAR_XONIDATE.bat` y la aplicación se abrirá.
 
 ## 🔧 Configuración
 
@@ -108,6 +119,7 @@ Dentro de la interfaz web (abre automáticamente en http://127.0.0.1:5000):
 | `templates/index.html` | Interfaz de usuario (estilo terminal) |
 | `requirements.txt`   | Dependencias (opcional)            |
 | `README.md`          | Este archivo                       |
+| `INICIAR_XONIDATE.bat` | Lanzador para Windows (generado automáticamente) |
 
 ## 🧪 Pruebas
 
@@ -134,6 +146,7 @@ Abre esa URL en tu navegador.
 | El puerto 5000 ya está ocupado | Cambia el puerto en `xonidate.py` (última línea) o mata el proceso: `sudo kill -9 $(sudo lsof -t -i:5000)`. |
 | No se ve el código QR en la terminal | Instala `qrcode` (`pip install qrcode`). No es esencial para el funcionamiento. |
 | El PDF no se descarga | Revisa que tu navegador permita descargas automáticas. El PDF se genera en memoria. |
+| Error de permisos en Linux | Ejecuta `chmod +x start.py` y luego `./start.py` o usa `python start.py`. |
 
 ## 📄 Licencia
 
@@ -145,6 +158,3 @@ Todos los derechos reservados. No se permite la copia, distribución o modificac
 - **Creador**: Darian Alberto Camacho Salas  
 - **Email**: [xonidu@gmail.com](mailto:xonidu@gmail.com)  
 - **GitHub**: [@XONIDU](https://github.com/XONIDU)
-
----
-
