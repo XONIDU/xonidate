@@ -286,7 +286,7 @@ def display_terminal_info():
         print("(Ejecuta 'pip install qrcode' para ver el código QR)")
     
     print("="*60)
-    print("\n💡 Características:")
+    print("\nCaracterísticas:")
     print("  • ✅ Añade asistentes por nombre")
     print("  • ❌ Elimina asistentes, comidas o lugares si te equivocaste")
     print("  • Elimina días no disponibles")
